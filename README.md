@@ -158,4 +158,14 @@ function idCard15To18(id){
 	newid = newid + A[s];   
 	return newid;  
 } 
+//通过身份证号判断是男性还是女性
+//男性返回M，女性返回F
+function isFOrM(idCard){
+	idCard = idCard.length == 15 ? idCard15To18(idCard) : idCard;
+	if(idCard.substring(14,17)%2 == 0){
+		return 'F';
+	}else{
+		return 'M';
+	}
+}
 ```
