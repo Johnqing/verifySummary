@@ -72,3 +72,90 @@ return (nCheck % 10) === 0;
 ```
 /<(.*)>.*<\/>|<(.*) \/>/.test(value)
 ```
+
+### 身份证
+
+身份证15位编码规则：dddddd yymmdd xx p    
+dddddd：地区码    
+yymmdd: 出生年月日    
+xx: 顺序类编码，无法确定    
+p: 性别，奇数为男，偶数为女   
+身份证18位编码规则：dddddd yyyymmdd xxx y    
+dddddd：地区码    
+yyyymmdd: 出生年月日    
+xxx:顺序类编码，无法确定，奇数为男，偶数为女    
+y: 校验码，该位数值可通过前17位计算获得   
+
+11:"北京"
+12:"天津"
+13:"河北"
+14:"山西"
+15:"内蒙古"
+21:"辽宁"
+22:"吉林"
+23:"黑龙江 "
+31:"上海"
+32:"江苏"
+33:"浙江"
+34:"安徽"
+35:"福建"
+36:"江西"
+37:"山东"
+41:"河南"
+42:"湖北 "
+43:"湖南"
+44:"广东"
+45:"广西"
+46:"海南"
+50:"重庆"
+51:"四川"
+52:"贵州"
+53:"云南"
+54:"西藏 "
+61:"陕西"
+62:"甘肃"
+63:"青海"
+64:"宁夏"
+65:"新疆"
+71:"台湾"
+81:"香港"
+82:"澳门"
+91:"国外 "
+
+```
+function isIdCard(arrIdCard){  
+	arrIdCard = arrIdCard.length == 15 ? idCard15To18(arrIdCard) : arrIdCard;
+	var tag = false;      
+	var sigma = 0;    
+	var a = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];    
+	var w = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];         
+	for (var i = 0; i < 17; i++) {    
+		var ai = parseInt(arrIdCard.substring(i, i + 1));    
+		var wi = a[i];    
+		sigma += ai * wi;             
+	}     
+	var number = sigma % 11;              
+	var check_number = w[number];     
+	if (arrIdCard.substring(17) != check_number) {    
+		tag =  false;    
+	} else {    
+		tag = true;    
+	}     
+	return tag;  
+}
+function idCard15To18(id){  
+	var W = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1];  
+	var A = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];  
+	var i, j, s = 0;  
+	var newid;  
+	newid = id;  
+	newid = newid.substring(0, 6) + "19" + newid.substring(6, id.length);  
+	for(i = 0; i < newid.length; i++ ){  
+		j = parseInt(newid.substring(i,i+1))*W[i];  
+		s = s + j;  
+	}  
+	s = s % 11;  
+	newid = newid + A[s];   
+	return newid;  
+} 
+```
