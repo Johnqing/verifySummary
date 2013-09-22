@@ -169,3 +169,20 @@ function isFOrM(idCard){
 	}
 }
 ```
+
+### 字节数验证
+
+```
+function byteRangeLength(value){
+	var length = value.length;   
+	for(var i = 0; i < value.length; i++){   
+		if(value.charCodeAt(i) > 127){   
+			length++;   
+		}   
+	}   
+	if(param.length === 1) {param[1] = param[0]};
+	return length >= param[0] && length <= param[1];  
+}
+```
+
+
