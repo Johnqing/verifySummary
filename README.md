@@ -221,8 +221,9 @@ function byteRangeLength(value){
 
 ### 小数点
 
+```
 /^((-?\d)\.\d+)?$/.test(value)
-
+```
 
 
 ## 时间验证集合
