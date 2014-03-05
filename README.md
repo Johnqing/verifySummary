@@ -10,6 +10,21 @@
 
 ## 字符验证集合
 
+### 为空验证
+
+```
+function required(elem, value){
+	if (elem.nodeName.toLowerCase() === 'select') {
+	    var v = elem.value;
+	    return v && v != 0 && v != '';
+	}
+	if (checkable(elem)) {
+	    return getLength(value, elem) > 0;
+	}
+	return value.length > 0;
+}
+```
+
 ### 手机号验证
 
 TODO: 手机号如果增加新的号段，需要手动更新
