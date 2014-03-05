@@ -10,6 +10,15 @@
 
 ## 字符验证集合
 
+### 检查是否checkbox|radio
+
+```
+var checkable = function(element) {
+	return /radio|checkbox/i.test(element.type);
+};
+```
+
+
 ### 为空验证
 
 ```
