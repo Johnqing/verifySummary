@@ -198,6 +198,60 @@ function isFOrM(idCard){
 }
 ```
 
+### 信用卡
+
+```
+function isCreditCard(number){
+	function reverseString(source){
+		var s=source;
+		var ss="";
+		for(var i=s.length-1;i>=0;i--){
+			ss=ss+s.charAt(i);
+		}
+		return ss;
+	}
+	try{
+		if(number.length==0 || number.length<12 || number.length>19){
+			return false;
+		}
+	
+		var exp = /[34569]/,
+			objExp = new RegExp(exp);
+	
+		if(objExp.test(number.charAt(0)==false)) return false;
+	
+		var n = reverseString(number),
+			s = 0,
+			d = 0;
+	
+		for(var i=0;i<n.length;i++){
+			//说明是基数，因为从0位开始
+			if (i%2==0){
+				s = s + n.charAt(i) * 1
+			} else {
+				var t = n.charAt(i) * 2;
+				if(t > 9){
+					d = d + (t/10|0) + t % 10;
+				}else{
+					d = d + t;
+				}
+			}
+		}
+	
+		var sum = s + d;
+	
+		if(sum%10 == 0){
+			return true;
+		} else {
+			return false
+		}
+	
+	}catch (e){
+		return false;
+	}
+}
+```
+
 ### 字节数验证
 
 ```
@@ -242,7 +296,7 @@ function byteRangeLength(value){
 ### 数字
 
 ```
-/^[0-9]*$/.test(value)
+!isNaN(value)
 ```
 
 ### 整数
@@ -271,4 +325,6 @@ function byteRangeLength(value){
 ```
 !/Invalid|NaN/.test(new Date(value).toString())
 ````
+
+
 
