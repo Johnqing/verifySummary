@@ -60,41 +60,6 @@ TODO: 手机号如果增加新的号段，需要手动更新
 /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value)
 ```
 
-### 信用卡
-
-使用Luhn算法，总共有四步：
-
-1. 从卡号的最后一个数字开市,并逆向将奇数位置的数字相加.
-
-2. 将奇数位置的数字先*2,如果是两位数,就将这两位数相加,然后将结果放到总和中.
-
-3. 将两个总和相加将结果与10取膜 ,如果整除,则为正确的MasterCard.
-
-```
-if ( /[^0-9 \-]+/.test(value) ) {
-	return false;
-}
-var nCheck = 0,
-	nDigit = 0,
-	bEven = false;
-
-value = value.replace(/\D/g, "");
-
-for (var n = value.length - 1; n >= 0; n--) {
-	var cDigit = value.charAt(n);
-	nDigit = parseInt(cDigit, 10);
-	if ( bEven ) {
-		if ( (nDigit *= 2) > 9 ) {
-			nDigit -= 9;
-		}
-	}
-	nCheck += nDigit;
-	bEven = !bEven;
-}
-
-return (nCheck % 10) === 0;
-```
-
 ### HTML标签
 
 ```
@@ -195,6 +160,28 @@ function isFOrM(idCard){
 	}else{
 		return 'M';
 	}
+}
+/**
+ * 获取年龄
+ * @param id
+ * @returns {number}  返回当前周岁(已过生日默认+1岁)
+ */
+function getAge(id){
+	id = idCard15To18(id);
+	var day = new Date();
+		nowYear = day.getFullYear(),
+		nowMonth = day.getMonth() + 1,
+		nowDay = day.getDay(),
+		idDay = id.substring(6, 14),
+		idcardYear = idDay.substring(0, 4),
+		idcardMonth = idDay.substring(4, 6),
+		idcardDay = idDay.substring(6)
+
+	var age = nowYear - idcardYear,
+		M = nowMonth - parseInt(idcardMonth),
+		D = nowDay - parseInt(idcardDay);
+
+	return (M>0 || (M == 0 && D >= 0)) ? age+1 : age;
 }
 ```
 
@@ -326,5 +313,7 @@ function byteRangeLength(value){
 !/Invalid|NaN/.test(new Date(value).toString())
 ````
 
+
+PS： 可以到[这里](https://github.com/Johnqing/QHPAY/blob/master/js/lib/base.js)查看一些实用的基础方法
 
 
