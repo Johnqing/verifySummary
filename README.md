@@ -45,7 +45,7 @@ function required(elem, value){
 TODO: 手机号如果增加新的号段，需要手动更新
 
 ```
-/^(13|15|18|14)\d{9}$/.test(value)
+/^(13|15|18|14|17)\d{9}$/.test(value)
 ```
 
 ### 邮箱验证
