@@ -177,7 +177,7 @@ function getAge(id){
 	var day = new Date();
 		nowYear = day.getFullYear(),
 		nowMonth = day.getMonth() + 1,
-		nowDay = day.getDay(),
+		nowDay = day.getDate(),
 		idDay = id.substring(6, 14),
 		idcardYear = idDay.substring(0, 4),
 		idcardMonth = idDay.substring(4, 6),
